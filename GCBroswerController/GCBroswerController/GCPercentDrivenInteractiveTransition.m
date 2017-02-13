@@ -127,13 +127,17 @@
             //失败了接标记失败
             [transitionContext completeTransition:NO];
             fromVC.view.hidden = NO;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [tempImgView removeFromSuperview];
+                [coverView removeFromSuperview];
+            });
         }else{
             //如果成功了，我们需要标记成功，同时让vc1显示出来，然后移除截图视图，
             [transitionContext completeTransition:YES];
+            [tempImgView removeFromSuperview];
+            [coverView removeFromSuperview];
         }
         
-        [tempImgView removeFromSuperview];
-        [coverView removeFromSuperview];
     }];
     
 }
