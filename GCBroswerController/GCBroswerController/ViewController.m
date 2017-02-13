@@ -10,13 +10,12 @@
 
 #import "ViewController.h"
 #import "ViewController1.h"
-
-#import "GCPercentDrivenInteractiveTransition.h"
+#import "GCTransitionManager.h"
 
 
 @interface ViewController ()
 
-@property (nonatomic, strong) GCPercentDrivenInteractiveTransition *interactiveDismiss;
+@property (nonatomic, strong) GCTransitionManager *manager;
 @end
 
 @implementation ViewController
@@ -26,13 +25,18 @@
     
     ViewController1 *vc = [ViewController1 new];
     
-    self.interactiveDismiss = [GCPercentDrivenInteractiveTransition new];
-    [self.interactiveDismiss addPanGestureForViewController:vc];
-    vc.transitioningDelegate = self.interactiveDismiss;
+    [self.manager addPanGestureForViewController:vc];
+    vc.transitioningDelegate = self.manager;
     vc.modalPresentationStyle = UIModalPresentationCustom;
     
     [self presentViewController:vc animated:YES completion:nil];
 }
 
-
+- (GCTransitionManager *)manager
+{
+    if (!_manager) {
+        _manager = [[GCTransitionManager alloc] init];
+    }
+    return _manager;
+}
 @end

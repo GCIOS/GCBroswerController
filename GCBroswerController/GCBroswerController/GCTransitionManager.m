@@ -1,25 +1,25 @@
 //
-//  GCPercentDrivenInteractiveTransition.m
+//  GCTransitionManager.m
 //  GCBroswerController
 //
 //  Created by 高崇 on 17/2/10.
 //  Copyright © 2017年 LieLvWang. All rights reserved.
 //
 
-#import "GCPercentDrivenInteractiveTransition.h"
+#import "GCTransitionManager.h"
 #import "UIView+FrameChange.h"
 
 #define MaxPercent 0.35
-@interface GCPercentDrivenInteractiveTransition ()
+@interface GCTransitionManager ()
 
-@property (nonatomic, weak) UIViewController <GCPercentDrivenInteractiveTransitionDelegate>*presentingVC;
+@property (nonatomic, weak) UIViewController <GCTransitionManagerDelegate>*presentingVC;
 
 @property (nonatomic, assign) BOOL isUp;
 @property (nonatomic, assign) BOOL isDown;
 @property (nonatomic, assign) BOOL isPresent;
 @end
 
-@implementation GCPercentDrivenInteractiveTransition
+@implementation GCTransitionManager
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
@@ -85,13 +85,14 @@
 - (void)dismissAnimation:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     
+    UIView *containerView = [transitionContext containerView];
     UIImageView *imageView = self.presentingVC.imgView;
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIImageView *tempImgView = [[UIImageView alloc] initWithFrame:imageView.frame];
+    CGRect tempImgViewFrame = [imageView.superview convertRect:imageView.frame toView:containerView];
+    UIImageView *tempImgView = [[UIImageView alloc] initWithFrame:tempImgViewFrame];
     tempImgView.image = imageView.image;
-//    NSLog(@"hello = %@  %@", imageView, tempImgView);
+    //    NSLog(@"hello = %@  %@", imageView, tempImgView);
     
-    UIView *containerView = [transitionContext containerView];
     UIView *coverView = [[UIView alloc] initWithFrame:containerView.bounds];
     coverView.backgroundColor = [UIColor blackColor];
     if (!self.isDown && !self.isUp) {
@@ -144,7 +145,7 @@
 
 #pragma mark - UIViewControllerInteractiveTransitioning
 
-- (void)addPanGestureForViewController:(UIViewController <GCPercentDrivenInteractiveTransitionDelegate>*)viewController;
+- (void)addPanGestureForViewController:(UIViewController <GCTransitionManagerDelegate>*)viewController;
 {
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [viewController.view addGestureRecognizer:pan];
@@ -178,7 +179,7 @@
         percent = -1.0;
     }
     
-//    NSLog(@"------   %f   %f ", transitionY, percent);
+    //    NSLog(@"------   %f   %f ", transitionY, percent);
     
     switch (panGesture.state) {
         case UIGestureRecognizerStateBegan:

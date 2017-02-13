@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GCPercentDrivenInteractiveTransition.h"
+#import "GCTransitionManager.h"
 
-@interface ViewController1 : UIViewController<GCPercentDrivenInteractiveTransitionDelegate>
+@interface ViewController1 : UIViewController<GCTransitionManagerDelegate>
 
 @end

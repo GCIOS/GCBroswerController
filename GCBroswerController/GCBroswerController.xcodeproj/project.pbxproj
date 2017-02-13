@@ -11,7 +11,6 @@
 		2058D6111E51480A00ECE500 /* ViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 2058D60B1E51480A00ECE500 /* ViewController1.m */; };
 		2058D6121E51480A00ECE500 /* ViewController1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2058D60C1E51480A00ECE500 /* ViewController1.xib */; };
 		2058D6131E51480A00ECE500 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2058D60D1E51480A00ECE500 /* Main.storyboard */; };
-		2058D6141E51480A00ECE500 /* GCPercentDrivenInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 2058D60F1E51480A00ECE500 /* GCPercentDrivenInteractiveTransition.m */; };
 		20A686FA1E4DA08500382E27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A686F91E4DA08500382E27 /* main.m */; };
 		20A686FD1E4DA08500382E27 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A686FC1E4DA08500382E27 /* AppDelegate.m */; };
 		20A687081E4DA08500382E27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20A687061E4DA08500382E27 /* LaunchScreen.storyboard */; };
@@ -19,6 +18,7 @@
 		20A6871E1E4DA08500382E27 /* GCBroswerControllerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A6871D1E4DA08500382E27 /* GCBroswerControllerUITests.m */; };
 		20A6873B1E4DA0A800382E27 /* UIView+ FrameChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 20A687331E4DA0A800382E27 /* UIView+ FrameChange.m */; };
 		20A6873C1E4DA0A800382E27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20A687351E4DA0A800382E27 /* Assets.xcassets */; };
+		20B5D9951E51BD9F000C9DF6 /* GCTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B5D9941E51BD9F000C9DF6 /* GCTransitionManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +45,6 @@
 		2058D60B1E51480A00ECE500 /* ViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController1.m; sourceTree = "<group>"; };
 		2058D60C1E51480A00ECE500 /* ViewController1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController1.xib; sourceTree = "<group>"; };
 		2058D60D1E51480A00ECE500 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		2058D60E1E51480A00ECE500 /* GCPercentDrivenInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCPercentDrivenInteractiveTransition.h; sourceTree = "<group>"; };
-		2058D60F1E51480A00ECE500 /* GCPercentDrivenInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPercentDrivenInteractiveTransition.m; sourceTree = "<group>"; };
 		20A686F51E4DA08500382E27 /* GCBroswerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCBroswerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20A686F91E4DA08500382E27 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		20A686FB1E4DA08500382E27 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -62,6 +60,8 @@
 		20A687331E4DA0A800382E27 /* UIView+ FrameChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ FrameChange.m"; sourceTree = "<group>"; };
 		20A687341E4DA0A800382E27 /* UIView+FrameChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameChange.h"; sourceTree = "<group>"; };
 		20A687351E4DA0A800382E27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		20B5D9931E51BD9F000C9DF6 /* GCTransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCTransitionManager.h; sourceTree = "<group>"; };
+		20B5D9941E51BD9F000C9DF6 /* GCTransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCTransitionManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,8 +121,8 @@
 				2058D60B1E51480A00ECE500 /* ViewController1.m */,
 				2058D60C1E51480A00ECE500 /* ViewController1.xib */,
 				2058D60D1E51480A00ECE500 /* Main.storyboard */,
-				2058D60E1E51480A00ECE500 /* GCPercentDrivenInteractiveTransition.h */,
-				2058D60F1E51480A00ECE500 /* GCPercentDrivenInteractiveTransition.m */,
+				20B5D9931E51BD9F000C9DF6 /* GCTransitionManager.h */,
+				20B5D9941E51BD9F000C9DF6 /* GCTransitionManager.m */,
 				20A687351E4DA0A800382E27 /* Assets.xcassets */,
 				20A687061E4DA08500382E27 /* LaunchScreen.storyboard */,
 				20A687091E4DA08500382E27 /* Info.plist */,
@@ -306,7 +306,7 @@
 				2058D6111E51480A00ECE500 /* ViewController1.m in Sources */,
 				20A686FD1E4DA08500382E27 /* AppDelegate.m in Sources */,
 				20A686FA1E4DA08500382E27 /* main.m in Sources */,
-				2058D6141E51480A00ECE500 /* GCPercentDrivenInteractiveTransition.m in Sources */,
+				20B5D9951E51BD9F000C9DF6 /* GCTransitionManager.m in Sources */,
 				2058D6101E51480A00ECE500 /* ViewController.m in Sources */,
 				20A6873B1E4DA0A800382E27 /* UIView+ FrameChange.m in Sources */,
 			);
