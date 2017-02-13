@@ -8,20 +8,17 @@
 
 #import "ViewController1.h"
 
+@interface ViewController1 ()
+
+@property (weak, nonatomic) IBOutlet UIImageView *imgView;
+@end
+
 @implementation ViewController1
 
 
 - (void)dealloc{
     NSLog(@"销毁了!!!!!");
 }
-
-
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-   
-}
-
 
 - (IBAction)dismiss {
     [self dismissViewControllerAnimated:YES completion:nil];

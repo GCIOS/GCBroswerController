@@ -10,29 +10,23 @@
 
 #import "ViewController.h"
 #import "ViewController1.h"
-#import "XWPresentOneTransition.h"
 
+#import "GCPercentDrivenInteractiveTransition.h"
 
 
 @interface ViewController ()
 
-@property (nonatomic, strong) XWPresentOneTransition *interactiveDismiss;
+@property (nonatomic, strong) GCPercentDrivenInteractiveTransition *interactiveDismiss;
 @end
-
-CGFloat const gestureMinimumTranslation1 = 20.0;
-
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
 
 - (IBAction)click:(id)sender {
     
     ViewController1 *vc = [ViewController1 new];
     
-    self.interactiveDismiss = [XWPresentOneTransition new];
+    self.interactiveDismiss = [GCPercentDrivenInteractiveTransition new];
     [self.interactiveDismiss addPanGestureForViewController:vc];
     vc.transitioningDelegate = self.interactiveDismiss;
     vc.modalPresentationStyle = UIModalPresentationCustom;

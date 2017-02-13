@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GCPercentDrivenInteractiveTransition.h"
 
-@interface ViewController1 : UIViewController
+@interface ViewController1 : UIViewController<GCPercentDrivenInteractiveTransitionDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *imgView;
 @end

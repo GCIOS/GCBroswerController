@@ -1,28 +1,25 @@
 //
-//  XWPresentOneTransition.m
-//  XWTrasitionPractice
+//  GCPercentDrivenInteractiveTransition.m
+//  GCBroswerController
 //
-//  Created by YouLoft_MacMini on 15/11/24.
-//  Copyright © 2015年 YouLoft_MacMini. All rights reserved.
+//  Created by 高崇 on 17/2/10.
+//  Copyright © 2017年 LieLvWang. All rights reserved.
 //
 
-#import "XWPresentOneTransition.h"
+#import "GCPercentDrivenInteractiveTransition.h"
 #import "UIView+FrameChange.h"
-#import "ViewController1.h"
 
+#define MaxPercent 0.35
+@interface GCPercentDrivenInteractiveTransition ()
 
-@interface XWPresentOneTransition ()
+@property (nonatomic, weak) UIViewController <GCPercentDrivenInteractiveTransitionDelegate>*presentingVC;
 
-
-@property (nonatomic, weak) ViewController1 *vc;
 @property (nonatomic, assign) BOOL isUp;
 @property (nonatomic, assign) BOOL isDown;
 @property (nonatomic, assign) BOOL isPresent;
-@property (nonatomic, assign) CGFloat persent;
 @end
 
-@implementation XWPresentOneTransition
-
+@implementation GCPercentDrivenInteractiveTransition
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
@@ -88,10 +85,11 @@
 - (void)dismissAnimation:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     
-    ViewController1 *fromVC = (ViewController1 *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    
-    UIImageView *tempView = [[UIImageView alloc] initWithFrame:fromVC.imgView.frame];
-    tempView.image = fromVC.imgView.image;
+    UIImageView *imageView = self.presentingVC.imgView;
+    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIImageView *tempImgView = [[UIImageView alloc] initWithFrame:imageView.frame];
+    tempImgView.image = imageView.image;
+//    NSLog(@"hello = %@  %@", imageView, tempImgView);
     
     UIView *containerView = [transitionContext containerView];
     UIView *coverView = [[UIView alloc] initWithFrame:containerView.bounds];
@@ -101,19 +99,22 @@
     }else{
         
         [containerView addSubview:coverView];
-        [containerView addSubview:tempView];
+        [containerView addSubview:tempImgView];
         fromVC.view.hidden = YES;
     }
     
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
         if (self.isUp) {
             
-            tempView.transform = CGAffineTransformMakeTranslation(0, -kScreenH*0.5 - tempView.height);
+            tempImgView.transform = CGAffineTransformMakeTranslation(0, -kScreenH*0.5 - tempImgView.height);
         }
         if (self.isDown) {
             
-            tempView.transform = CGAffineTransformMakeTranslation(0, kScreenH*0.5 + tempView.height);
+            tempImgView.transform = CGAffineTransformMakeTranslation(0, kScreenH*0.5 + tempImgView.height);
         }
+        
+        
+        
         if (!self.isDown && !self.isUp) {
             
             fromVC.view.transform = CGAffineTransformMakeTranslation(kScreenW,0);
@@ -131,35 +132,49 @@
             [transitionContext completeTransition:YES];
         }
         
-        [tempView removeFromSuperview];
+        [tempImgView removeFromSuperview];
         [coverView removeFromSuperview];
     }];
+    
 }
 
 #pragma mark - UIViewControllerInteractiveTransitioning
 
-- (void)addPanGestureForViewController:(UIViewController *)viewController{
+- (void)addPanGestureForViewController:(UIViewController <GCPercentDrivenInteractiveTransitionDelegate>*)viewController;
+{
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-    self.vc = (ViewController1 *)viewController;
-    [self.vc.view addGestureRecognizer:pan];
+    [viewController.view addGestureRecognizer:pan];
+    self.presentingVC = viewController;
 }
 
 - (CGFloat)completionSpeed
 {
-    return  _persent;
+    if (self.percentComplete > MaxPercent) {// dismiss
+        return 0.70;
+    }else{
+        return  self.percentComplete;
+    }
 }
+
 /**
  *  手势过渡的过程
  */
 - (void)handleGesture:(UIPanGestureRecognizer *)panGesture{
     
-    
-    //手势百分比
+    //位移
     CGFloat transitionY = [panGesture translationInView:panGesture.view].y;
-    CGFloat persent =   transitionY / (kScreenH*0.5);
-    self.persent = fabs(persent);
+    //手势百分比
+    CGFloat percent =   transitionY / (kScreenH*0.5 + self.presentingVC.imgView.height);
     
-//    NSLog(@"------   %f   %f   %f", transitionY, persent, self.completionSpeed);
+    //Limit it between -1.0 and 1.0
+    if (percent > 1.0 ) {
+        percent = 1.0;
+    }
+    if (percent < -1.0) {
+        percent = -1.0;
+    }
+    
+//    NSLog(@"------   %f   %f ", transitionY, percent);
     
     switch (panGesture.state) {
         case UIGestureRecognizerStateBegan:
@@ -167,9 +182,9 @@
             break;
         case UIGestureRecognizerStateChanged:{
             
-            if (persent > 0) {
+            if (percent > 0) {
                 
-                [self updateInteractiveTransition:persent];
+                [self updateInteractiveTransition:percent];
                 if (self.isDown) {
                     return;
                 }
@@ -177,9 +192,9 @@
                 self.isUp = NO;
                 NSLog(@"下");
                 [self cancelInteractiveTransition];
-                [_vc dismissViewControllerAnimated:YES completion:nil];
+                [self.presentingVC dismissViewControllerAnimated:YES completion:nil];
             }else{
-                [self updateInteractiveTransition:-persent];
+                [self updateInteractiveTransition:-percent];
                 if (self.isUp) {
                     return;
                 }
@@ -187,7 +202,7 @@
                 self.isDown = NO;
                 NSLog(@"---- 上");
                 [self cancelInteractiveTransition];
-                [_vc dismissViewControllerAnimated:YES completion:nil];
+                [self.presentingVC dismissViewControllerAnimated:YES completion:nil];
             }
             
             break;
@@ -195,14 +210,14 @@
         case UIGestureRecognizerStateEnded:{
             self.interation = NO;
             if (self.isDown) {
-                if (persent > 0.4) {
+                if (percent > MaxPercent) {
                     [self finishInteractiveTransition];
                 }else{
                     [self cancelInteractiveTransition];
                 }
             }
             if (self.isUp){
-                if (-persent > 0.4) {
+                if (-percent > MaxPercent) {
                     [self finishInteractiveTransition];
                 }else{
                     [self cancelInteractiveTransition];
@@ -224,14 +239,3 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
